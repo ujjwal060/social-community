@@ -32,7 +32,7 @@ const registerUser = async (req, res) => {
 
         const otpSent = await sendOTP(mobile, otp);
 
-        if (!otpSent.success) {
+        if (!otpSent) {
             return res.status(500).json({
                 status: 500,
                 message: otpSent.message,

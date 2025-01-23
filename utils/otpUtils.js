@@ -12,7 +12,7 @@ const sendOTP = async (mobile, otp) => {
     try {
         await client.messages.create({
             body: `Your verification code is ${otp}. It will expire in 10 minutes.`,
-            from: 'your_twilio_phone_number',
+            from:process.env.twilio_phone_number,
             to: mobile,
         });
         return true;
