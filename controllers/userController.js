@@ -1,6 +1,7 @@
 import UserModel from '../models/userModel.js';
 import { hashPassword } from '../utils/passwordUtils.js';
 import { generateOTP,sendOTP } from '../utils/otpUtils.js';
+
 const registerUser = async (req, res) => {
     try {
         const { name, email, mobile, state, city, gender, password } = req.body;
@@ -32,7 +33,7 @@ const registerUser = async (req, res) => {
 
         const otpSent = await sendOTP(mobile, otp);
 
-        if (!otpSent) {
+        if (!otpSent.success) {
             return res.status(500).json({
                 status: 500,
                 message: otpSent.message,
@@ -50,6 +51,18 @@ const registerUser = async (req, res) => {
     }
 }
 
+const verifyOtp=async(req,res)=>{
+    try{
+
+    }catch(error){
+        return res.status(500).json({
+            status: 500,
+            message: [error.message],
+        });  
+    }
+}
+
 export {
     registerUser,
+    verifyOtp,
 };

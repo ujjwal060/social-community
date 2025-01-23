@@ -15,7 +15,7 @@ const sendOTP = async (mobile, otp) => {
             from:process.env.twilio_phone_number,
             to: mobile,
         });
-        return true;
+        return {success:true};
     } catch (error) {
         return { success: false, message:[error.message]};
     }
