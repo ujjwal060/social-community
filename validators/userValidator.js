@@ -53,6 +53,39 @@ const userValidationSchema = Joi.object({
     }),
 });
 
+const loginValidationSchema = Joi.object({
+    email: Joi.string().email().optional().messages({
+        'string.base': 'Email must be a string.',
+        'string.email': 'Email must be valid.',
+    }),
+    mobile: Joi.string()
+        .pattern(/^\+[1-9][0-9]{0,3}[1-9][0-9]{9}$/)
+        .optional()
+        .messages({
+            'string.base': 'Mobile number must be a string.',
+            'string.pattern.base': 'Mobile number must include a valid country code and be in the format: +<country code><10-digit number>.',
+        }),
+    password: Joi.string().min(6).max(128).required().messages({
+        'string.base': 'Password must be a string.',
+        'string.empty': 'Password is required.',
+        'string.min': 'Password must be at least 6 characters.',
+        'string.max': 'Password cannot exceed 128 characters.',
+        'any.required': 'Password is required.',
+    }),
+}).xor('email', 'mobile');
+
+const setPasswordValidationSchema = Joi.object({
+    password: Joi.string().min(6).max(128).required().messages({
+        'string.base': 'Password must be a string.',
+        'string.empty': 'Password is required.',
+        'string.min': 'Password must be at least 6 characters.',
+        'string.max': 'Password cannot exceed 128 characters.',
+        'any.required': 'Password is required.',
+    })
+});
+
 export {
-    userValidationSchema
+    userValidationSchema,
+    loginValidationSchema,
+    setPasswordValidationSchema
 };
