@@ -1,6 +1,11 @@
 import express from 'express';
 import { validateRequest } from '../middleware/validationMiddleware.js';
-import { userValidationSchema ,loginValidationSchema,setPasswordValidationSchema} from '../validators/userValidator.js';
+import {
+    userValidationSchema,
+    loginValidationSchema,
+    setPasswordValidationSchema,
+    userValidationSchemaOTP
+} from '../validators/userValidator.js';
 import {
     registerUser,
     loginUser,
@@ -8,19 +13,29 @@ import {
     resendOtp,
     logOut,
     setPassword,
-    changePassword
+    changePassword,
+    verifyOtp,
+    getg
 } from '../controllers/userController.js';
+import {
+    authenticateUser,
+    refreshToken
+} from '../middleware/authMiddleware.js';
 
 
 const router = express.Router();
 
-router.post('/register', validateRequest(userValidationSchema), registerUser);
+router.post('/signup', validateRequest(userValidationSchema), registerUser);
 router.post('/login', validateRequest(loginValidationSchema), loginUser);
 router.post('/forgot-password', forgatePassword);
 router.post('/set-password', validateRequest(setPasswordValidationSchema), setPassword)
 router.post('/resend-otp', resendOtp);
-router.post('/logout', logOut);
-router.post('/changePassword',validateRequest(setPasswordValidationSchema), changePassword);
+router.post('/logout', authenticateUser, logOut);
+router.post('/changePassword', authenticateUser, validateRequest(setPasswordValidationSchema), changePassword);
+router.post('/verifyOTP', validateRequest(userValidationSchemaOTP),verifyOtp);
 
+router.post('/refreshToken', refreshToken);
+
+router.get('/g',authenticateUser,getg)
 
 export default router;

@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import bcrypt from 'bcryptjs';
 import UserModel from '../models/userModel.js';
 import { hashPassword } from '../utils/passwordUtils.js';
 import { generateOTP, sendOTP } from '../utils/otpUtils.js';
@@ -103,13 +104,13 @@ const verifyOtp = async (req, res) => {
         if (type === 'register') {
 
             const accessToken = jwt.sign(
-                { id: user._id, email: user.email },
+                { userId: user._id, email: user.email },
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: "1h" }
             );
 
             const refreshToken = jwt.sign(
-                { id: user._id, email: user.email },
+                { userId: user._id, email: user.email },
                 process.env.REFRESH_TOKEN_SECRET,
                 { expiresIn: "30d" }
             );
@@ -167,7 +168,7 @@ const loginUser = async (req, res) => {
             });
         }
 
-        const isPasswordValid = await comparePassword(password, user.password);
+        const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
             return res.status(400).json({
@@ -177,13 +178,13 @@ const loginUser = async (req, res) => {
         }
 
         const accessToken = jwt.sign(
-            { id: user._id, email: user.email, mobile: user.mobile },
+            { userid: user._id, email: user.email, mobile: user.mobile },
             process.env.ACCESS_TOKEN_SECRET,
-            { expiresIn: "1h" }
+            { expiresIn: "1m" }
         );
 
         const refreshToken = jwt.sign(
-            { id: user._id, email: user.email, mobile: user.mobile },
+            { userId: user._id, email: user.email, mobile: user.mobile },
             process.env.REFRESH_TOKEN_SECRET,
             { expiresIn: "30d" }
         );
@@ -384,6 +385,13 @@ const changePassword = async (req, res) => {
         });
     }
 }
+
+const getg=async(req,res)=>{
+    res.json({
+        data:req.user
+    })
+    
+}
 export {
     registerUser,
     verifyOtp,
@@ -392,5 +400,5 @@ export {
     setPassword,
     resendOtp,
     logOut,
-    changePassword
+    changePassword,getg
 };
