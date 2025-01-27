@@ -15,7 +15,6 @@ import {
     setPassword,
     changePassword,
     verifyOtp,
-    getg
 } from '../controllers/userController.js';
 import {
     authenticateUser,
@@ -33,9 +32,6 @@ router.post('/resend-otp', resendOtp);
 router.post('/logout', authenticateUser, logOut);
 router.post('/changePassword', authenticateUser, validateRequest(setPasswordValidationSchema), changePassword);
 router.post('/verifyOTP', validateRequest(userValidationSchemaOTP),verifyOtp);
-
 router.post('/refreshToken', refreshToken);
-
-router.get('/g',authenticateUser,getg)
 
 export default router;

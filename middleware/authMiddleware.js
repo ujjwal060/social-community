@@ -1,4 +1,6 @@
 import jwt from "jsonwebtoken";
+import UserModel from '../models/userModel.js';
+
 
 const authenticateUser = (req, res, next) => {
     const authHeader = req.headers.authorization;
@@ -31,9 +33,9 @@ const authenticateUser = (req, res, next) => {
 
 const refreshToken = async (req, res) => {
     try {
-        const { refreshToken } = req.body;
-
-        const decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+        const token=req.body.refreshToken;
+        
+        const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
 
         const user = await UserModel.findOne({ _id: decoded.userId, refreshToken });
 

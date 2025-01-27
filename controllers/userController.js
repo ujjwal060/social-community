@@ -123,8 +123,10 @@ const verifyOtp = async (req, res) => {
             return res.status(200).json({
                 status: 200,
                 message: ["OTP verified successfully"],
-                accessToken,
-                refreshToken,
+                data: {
+                    accessToken,
+                    refreshToken,
+                }
             });
         } else {
             user.otp = null;
@@ -195,8 +197,10 @@ const loginUser = async (req, res) => {
         return res.status(200).json({
             status: 200,
             message: ["Login successful"],
-            accessToken,
-            refreshToken,
+            data: {
+                accessToken,
+                refreshToken,
+            }
         });
 
     } catch (error) {
@@ -368,7 +372,7 @@ const changePassword = async (req, res) => {
 
         const user = await UserModel.findById(userId);
 
-        const hashedPassword=await hashPassword(password);
+        const hashedPassword = await hashPassword(password);
 
         user.password = hashedPassword;
         await user.save();
@@ -386,12 +390,6 @@ const changePassword = async (req, res) => {
     }
 }
 
-const getg=async(req,res)=>{
-    res.json({
-        data:req.user
-    })
-    
-}
 export {
     registerUser,
     verifyOtp,
@@ -400,5 +398,5 @@ export {
     setPassword,
     resendOtp,
     logOut,
-    changePassword,getg
+    changePassword,
 };
