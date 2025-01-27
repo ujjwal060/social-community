@@ -29,7 +29,7 @@ router.post('/login', validateRequest(loginValidationSchema), loginUser);
 router.post('/forgot-password', forgatePassword);
 router.post('/set-password', validateRequest(setPasswordValidationSchema), setPassword)
 router.post('/resend-otp', resendOtp);
-router.post('/logout', authenticateUser, logOut);
+router.post('/logout', logOut);
 router.post('/changePassword', authenticateUser, validateRequest(setPasswordValidationSchema), changePassword);
 router.post('/verifyOTP', validateRequest(userValidationSchemaOTP),verifyOtp);
 router.post('/refreshToken', refreshToken);
