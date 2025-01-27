@@ -37,7 +37,7 @@ const refreshToken = async (req, res) => {
         
         const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
 
-        const user = await UserModel.findOne({ _id: decoded.userId, refreshToken });
+        const user = await UserModel.findOne({ _id: decoded.userId, refreshToken:token });
 
         if (!user) {
             return res.status(403).json({

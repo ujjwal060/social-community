@@ -104,13 +104,13 @@ const verifyOtp = async (req, res) => {
         if (type === 'register') {
 
             const accessToken = jwt.sign(
-                { userId: user._id, email: user.email },
+                { userId: user._id},
                 process.env.ACCESS_TOKEN_SECRET,
                 { expiresIn: "1h" }
             );
 
             const refreshToken = jwt.sign(
-                { userId: user._id, email: user.email },
+                { userId: user._id},
                 process.env.REFRESH_TOKEN_SECRET,
                 { expiresIn: "30d" }
             );
@@ -180,13 +180,13 @@ const loginUser = async (req, res) => {
         }
 
         const accessToken = jwt.sign(
-            { userid: user._id, email: user.email, mobile: user.mobile },
+            { userid: user._id},
             process.env.ACCESS_TOKEN_SECRET,
             { expiresIn: "1h" }
         );
 
         const refreshToken = jwt.sign(
-            { userId: user._id, email: user.email, mobile: user.mobile },
+            { userId: user._id},
             process.env.REFRESH_TOKEN_SECRET,
             { expiresIn: "30d" }
         );
