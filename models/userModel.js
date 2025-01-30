@@ -1,5 +1,20 @@
 import mongoose from 'mongoose';
 
+const socialSchema = new mongoose.Schema(
+  {
+    provider: {
+      type: String,
+      required: true,
+      enum: ['google', 'apple'],
+    },
+    providerId: {
+      type: String,
+      required: true,
+    }
+  },
+  { _id: false }
+);
+
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -13,25 +28,25 @@ const userSchema = new mongoose.Schema(
     },
     mobile: {
       type: String,
-      required: true,
+      required: false,
       unique: true,
     },
     state: {
       type: String,
-      required: true,
+      required: false,
     },
     city: {
       type: String,
-      required: true,
+      required: false,
     },
     gender: {
       type: String,
-      required: true,
+      required: false,
       enum: ['male', 'female', 'other'],
     },
     password: {
       type: String,
-      required: true,
+      required: false,
     },
     refreshToken: {
       type: String
@@ -44,11 +59,13 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    social:[socialSchema]
   },
   {
     timestamps: true,
   }
 );
+
 
 const User = mongoose.model('User', userSchema);
 
