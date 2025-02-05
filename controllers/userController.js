@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import UserModel from '../models/userModel.js';
 import { hashPassword } from '../utils/passwordUtils.js';
 import { generateOTP, sendOTP } from '../utils/otpUtils.js';
+import loadConfig from '../config/loadConfig.js';
 
 const registerUser = async (req, res) => {
     try {
@@ -68,6 +69,7 @@ const registerUser = async (req, res) => {
 
 const verifyOtp = async (req, res) => {
     try {
+        const config = await loadConfig();
         const { email, otp, type } = req.body;
 
         if (!email || !otp) {
@@ -105,13 +107,13 @@ const verifyOtp = async (req, res) => {
 
             const accessToken = jwt.sign(
                 { userId: user._id},
-                process.env.ACCESS_TOKEN_SECRET,
+                config.ACCESS_TOKEN_SECRET,
                 { expiresIn: "1h" }
             );
 
             const refreshToken = jwt.sign(
                 { userId: user._id},
-                process.env.REFRESH_TOKEN_SECRET,
+                config.REFRESH_TOKEN_SECRET,
                 { expiresIn: "30d" }
             );
 
@@ -150,6 +152,7 @@ const verifyOtp = async (req, res) => {
 
 const loginUser = async (req, res) => {
     try {
+        const config = await loadConfig();
         const { email, mobile, password } = req.body;
 
         if (!password || (!email && !mobile)) {
@@ -181,13 +184,13 @@ const loginUser = async (req, res) => {
 
         const accessToken = jwt.sign(
             { userid: user._id},
-            process.env.ACCESS_TOKEN_SECRET,
+            config.ACCESS_TOKEN_SECRET,
             { expiresIn: "1h" }
         );
 
         const refreshToken = jwt.sign(
             { userId: user._id},
-            process.env.REFRESH_TOKEN_SECRET,
+            config.REFRESH_TOKEN_SECRET,
             { expiresIn: "30d" }
         );
 
