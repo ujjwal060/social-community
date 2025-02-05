@@ -5,7 +5,7 @@ dotenv.config();
 
 const loadConfig = async () => {
   const config = {
-    NODE_ENV: process.env.NODE_ENV || 'development',
+    NODE_ENV: process.env.NODE_ENV || 'production',
     PORT: process.env.PORT || 5000,
     DB_URI: process.env.DB_URI,
     ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
