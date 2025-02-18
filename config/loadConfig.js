@@ -1,5 +1,7 @@
 import dotenv from 'dotenv';
 import AWS from 'aws-sdk';
+import {logger} from "../utils/logger.js"
+
 
 dotenv.config();
 
@@ -15,7 +17,7 @@ const loadConfig = async () => {
   };
 
   if (config.NODE_ENV === 'production') {
-    console.log('Fetching secrets from AWS Secrets Manager...');
+    logger.info('Fetching secrets from AWS Secrets Manager...');
     const secretsManager = new AWS.SecretsManager({ region: config.AWS_REGION });
 
     try {
@@ -24,15 +26,16 @@ const loadConfig = async () => {
       if (secretData.SecretString) {
         const secrets = JSON.parse(secretData.SecretString);
 
+        logger.info('Secrets successfully loaded from AWS.');
         return { ...config, ...secrets };
       }
     } catch (error) {
-      console.error('Error fetching secrets from AWS Secrets Manager:', error);
+      logger.error(`Error fetching secrets from AWS Secrets Manager: ${error.message}`);
       process.exit(1);
     }
   }
 
-  console.log('Running in development mode. Using .env for configuration.');
+  logger.info('Running in development mode. Using .env for configuration.');
   return config;
 };
 

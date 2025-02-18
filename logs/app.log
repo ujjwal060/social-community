@@ -1,0 +1,29 @@
+2025-02-18T13:09:05.481Z [INFO]: Running in development mode. Using .env for configuration.
+2025-02-18T13:09:05.486Z [INFO]: Running in development mode. Using .env for configuration.
+2025-02-18T13:09:05.610Z [INFO]: Connected to MongoDB successfully
+2025-02-18T13:09:05.617Z [INFO]: Server running on port 5000
+2025-02-18T13:14:12.884Z [INFO]: Running in development mode. Using .env for configuration.
+2025-02-18T13:14:12.890Z [INFO]: Running in development mode. Using .env for configuration.
+2025-02-18T13:14:12.997Z [INFO]: Connected to MongoDB successfully
+2025-02-18T13:14:13.003Z [INFO]: Server running on port 5000
+2025-02-18T13:14:45.889Z [INFO]: Running in development mode. Using .env for configuration.
+2025-02-18T13:14:45.893Z [INFO]: Running in development mode. Using .env for configuration.
+2025-02-18T13:14:45.995Z [INFO]: Connected to MongoDB successfully
+2025-02-18T13:14:46.001Z [INFO]: Server running on port 5000
+2025-02-18T13:15:55.037Z [INFO]: Running in development mode. Using .env for configuration.
+2025-02-18T13:15:55.042Z [INFO]: Running in development mode. Using .env for configuration.
+2025-02-18T13:15:55.152Z [INFO]: Connected to MongoDB successfully
+2025-02-18T13:15:55.156Z [INFO]: Server running on port undefined
+2025-02-18T13:17:06.204Z [INFO]: Running in development mode. Using .env for configuration.
+2025-02-18T13:17:06.210Z [INFO]: Running in development mode. Using .env for configuration.
+2025-02-18T13:17:06.321Z [INFO]: Connected to MongoDB successfully
+2025-02-18T13:17:06.326Z [INFO]: Server running on port 5000
+2025-02-18T13:28:46.881Z [INFO]: Running in development mode. Using .env for configuration.
+2025-02-18T13:28:46.914Z [INFO]: Running in development mode. Using .env for configuration.
+2025-02-18T13:28:47.137Z [INFO]: Connected to MongoDB successfully
+2025-02-18T13:28:47.147Z [INFO]: Server running on port 5000
+2025-02-18T13:32:02.579Z [ERROR]: Validation Error: ["Email must be valid."]
+2025-02-18T13:32:02.580Z [ERROR]: Validation failed for request body: {"email":"ujjwal.singh@aayaninfotechcom","password":"Ujjwal12@"}. Errors: Email must be valid.
+2025-02-18T13:38:53.970Z [INFO]: Validation passed for request body: {"email":"ujjwal.singh@aayaninfotech.com","password":"Ujjwal12@"}
+2025-02-18T13:39:47.748Z [INFO]: Validation passed for request body: {"name":"ujjwal Rajput","email":"ujjwal.singh@aayaninfotech.com","mobile":"+918538939395","state":"Bihar","city":"Gaya","gender":"male","password":"Ujjwal12@"}
+2025-02-18T13:39:48.956Z [ERROR]: Failed to send OTP to +918538939395. Error: Authenticate

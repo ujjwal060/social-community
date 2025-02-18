@@ -19,6 +19,7 @@
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.9.5",
-    "twilio": "^5.4.2"
+    "twilio": "^5.4.2",
+    "winston": "^3.17.0"
   }
 }
