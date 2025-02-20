@@ -1,7 +1,14 @@
 import mongoose from 'mongoose';
+import { nanoid } from 'nanoid';
 
 const userSchema = new mongoose.Schema(
   {
+    userId: {
+      type: String,
+      unique: true,
+      default: () => nanoid(12),
+      index: true,
+    },
     name: {
       type: String,
       required: true,
@@ -44,6 +51,23 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
+    // referralCode: {
+    //   type: String,
+    //   unique: true,
+    //   default: () => nanoid(8),
+    //   index: true,
+    // },
+    // referredBy: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: 'User',
+    //   default: null,
+    // },
+    // referrals: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'User',
+    //   },
+    // ],
   },
   {
     timestamps: true,

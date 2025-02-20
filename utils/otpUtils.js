@@ -19,7 +19,7 @@ const sendOTP = async (mobile, otp) => {
         logger.info(`OTP sent successfully to ${mobile}`);
         return {success:true};
     } catch (error) {
-        logger.error(`Failed to send OTP to ${mobile}. Error: ${error.message}`);
+        logger.error(`Failed to send OTP to ${mobile}. Error: ${error}`);
         return { success: false, message:[error.message]};
     }
 };
