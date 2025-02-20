@@ -6,7 +6,6 @@ const userSchema = new mongoose.Schema(
     userId: {
       type: String,
       unique: true,
-      default: () => nanoid(12),
       index: true,
     },
     name: {
@@ -51,12 +50,11 @@ const userSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
-    // referralCode: {
-    //   type: String,
-    //   unique: true,
-    //   default: () => nanoid(8),
-    //   index: true,
-    // },
+    referralCode: {
+      type: String,
+      unique: true,
+      index: true,
+    },
     // referredBy: {
     //   type: mongoose.Schema.Types.ObjectId,
     //   ref: 'User',

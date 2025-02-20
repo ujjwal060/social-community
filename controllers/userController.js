@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcryptjs';
 import UserModel from '../models/userModel.js';
-import { hashPassword } from '../utils/passwordUtils.js';
+import { hashPassword,generateUniqueUserId,genrateReferral} from '../utils/passwordUtils.js';
 import { generateOTP, sendOTP } from '../utils/otpUtils.js';
 import { logger } from "../utils/logger.js";
 
@@ -38,13 +38,18 @@ const registerUser = async (req, res) => {
         const hashedPassword = await hashPassword(password);
         const otp = generateOTP();
 
+        const userId = await generateUniqueUserId();
+        const newReferralCode = await genrateReferral(name);
+
         const user = new UserModel({
+            userId,
             name,
             email,
             mobile,
             state,
             city,
             gender,
+            referralCode:newReferralCode,
             password: hashedPassword,
             otp,
             otpExpire: new Date(Date.now() + 10 * 60 * 1000),
@@ -53,15 +58,15 @@ const registerUser = async (req, res) => {
         await user.save();
         logger.info("User registered successfully, OTP generated", { email, mobile, otp });
 
-        const otpSent = await sendOTP(mobile, otp);
+        // const otpSent = await sendOTP(mobile, otp);
 
-        if (!otpSent.success) {
-            logger.error("OTP sending failed", { mobile, error: otpSent.message });
-            return res.status(500).json({
-                status: 500,
-                message: otpSent.message,
-            });
-        }
+        // if (!otpSent.success) {
+        //     logger.error("OTP sending failed", { mobile, error: otpSent.message });
+        //     return res.status(500).json({
+        //         status: 500,
+        //         message: otpSent.message,
+        //     });
+        // }
 
         logger.info("OTP sent successfully", { mobile });
         return res.status(200).json({
