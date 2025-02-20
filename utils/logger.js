@@ -1,16 +1,19 @@
 import winston from 'winston';
+import LokiTransport from "winston-loki";
 
 const logger = winston.createLogger({
   level: "info",
   format: winston.format.combine(
     winston.format.timestamp(),
-    winston.format.printf(({ timestamp, level, message }) => {
-      return `${timestamp} [${level.toUpperCase()}]: ${message}`;
-    })
+    winston.format.json()
   ),
   transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: "logs/app.log" }),
+    new LokiTransport({
+      host: "http://localhost:3100",
+      json: true,
+      labels: { app: "winston-logs" },
+      format: winston.format.json(),
+    }),
   ],
 });
 
