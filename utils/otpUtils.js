@@ -1,4 +1,5 @@
 import twilio from 'twilio';
+import {logger} from "./logger.js";
 
 const accountSid = process.env.twilio_account_sid;
 const authToken =  process.env.twilio_auth_token;
@@ -15,8 +16,10 @@ const sendOTP = async (mobile, otp) => {
             from:process.env.twilio_phone_number,
             to: mobile,
         });
+        logger.info(`OTP sent successfully to ${mobile}`);
         return {success:true};
     } catch (error) {
+        logger.error(`Failed to send OTP to ${mobile}. Error: ${error.message}`);
         return { success: false, message:[error.message]};
     }
 };

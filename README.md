@@ -17,3 +17,6 @@ C:\aayan website\social-community\
 ├── .gitignore                 # Ignored files (e.g., node_modules, .env)
 ├── package.json
 └── README.md
+
+.\loki-windows-amd64.exe --config.file="C:\aayan website\social-community\loki-config.yaml" // for loki
+PS C:\Users\ABC\Downloads\grafana-enterprise-11.5.2.windows-amd64\grafana-v11.5.2\bin> .\grafana-server.exe // for grafana 
