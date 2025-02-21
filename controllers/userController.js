@@ -43,7 +43,7 @@ const registerUser = async (req, res) => {
         let referredByUser = null;
         if (referralBy) {
             try {
-                referredByUser = await handleReferral(referralCode, userId);
+                referredByUser = await handleReferral(referredByUser, userId);
             } catch (error) {
                 return res.status(400).json({ status: 400, message: [error.message] });
             }
@@ -419,6 +419,45 @@ const changePassword = async (req, res) => {
     }
 }
 
+const verifyRefralcode=async(req,res)=>{
+    try{
+        logger.info("Received request to verify referral code", { requestBody: req.body });
+        const { referralCode } = req.body;
+
+        if (!referralCode) {
+            logger.warn("Referral code missing in request");
+            return res.status(400).json({
+                status: 400,
+                message: ["Referral code is required"],
+            });
+        }
+
+        logger.info(`Checking referral code: ${referralCode}`);
+        const referral = await UserModel.findOne({ referralCode });
+
+        if (!referral) {
+            logger.warn(`Invalid referral code: ${referralCode}`);
+            return res.status(404).json({
+                status: 404,
+                message: ["Invalid referral code"],
+            });
+        }
+
+        logger.info(`Referral code verified successfully: ${referralCode}`);
+        return res.status(200).json({
+            status: 200,
+            message: ["Referral code verified successfully"],
+        });
+
+    }catch(error){
+        logger.error("Error verifying referral code", { error: error.message });
+        return res.status(500).json({
+            status: 500,
+            message: [error.message],
+        }); 
+    }
+}
+
 export {
     registerUser,
     verifyOtp,
@@ -428,4 +467,5 @@ export {
     resendOtp,
     logOut,
     changePassword,
+    verifyRefralcode
 };
