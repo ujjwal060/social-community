@@ -19,8 +19,7 @@ const authenticateUser = (req, res, next) => {
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
         req.user = {
-            userId: decoded.userId,
-            email: decoded.email,
+            userId: decoded.userid,
         };
         logger.info(`User authenticated. User ID: ${decoded.userId}`);
         next();

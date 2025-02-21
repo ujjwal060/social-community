@@ -15,6 +15,7 @@ import {
     setPassword,
     changePassword,
     verifyOtp,
+    verifyRefralcode
 } from '../controllers/userController.js';
 import {
     authenticateUser,
@@ -33,5 +34,7 @@ router.post('/logout', logOut);
 router.post('/changePassword', authenticateUser, validateRequest(setPasswordValidationSchema), changePassword);
 router.post('/verifyOTP', validateRequest(userValidationSchemaOTP),verifyOtp);
 router.post('/refreshToken', refreshToken);
+router.post('/verifyRefral', verifyRefralcode);
+
 
 export default router;
