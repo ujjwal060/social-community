@@ -54,18 +54,22 @@ const userSchema = new mongoose.Schema(
       type: String,
       unique: true,
       index: true,
+      required:true
     },
-    // referredBy: {
-    //   type: mongoose.Schema.Types.ObjectId,
-    //   ref: 'User',
-    //   default: null,
-    // },
-    // referrals: [
-    //   {
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'User',
-    //   },
-    // ],
+    referredBy: {
+      type: String,
+      ref: 'User',
+      default: null,
+      required:false,
+      immutable:true,
+    },
+    referrals: {
+      type: [String],
+      ref: 'User',
+      default:[],
+      required:false
+    },
+
   },
   {
     timestamps: true,

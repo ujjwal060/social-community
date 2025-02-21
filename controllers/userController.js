@@ -1,14 +1,14 @@
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcryptjs';
 import UserModel from '../models/userModel.js';
-import { hashPassword,generateUniqueUserId,genrateReferral} from '../utils/passwordUtils.js';
+import { hashPassword,generateUniqueUserId,genrateReferral,handleReferral} from '../utils/passwordUtils.js';
 import { generateOTP, sendOTP } from '../utils/otpUtils.js';
 import { logger } from "../utils/logger.js";
 
 const registerUser = async (req, res) => {
     try {
         logger.info("User registration request received", { body: req.body });
-        const { name, email, mobile, state, city, gender, password } = req.body;
+        const { name, email, mobile, state, city, gender, password ,referralBy} = req.body;
 
         const existingUser = await UserModel.findOne({ $or: [{ email }, { mobile }] });
 
@@ -37,9 +37,17 @@ const registerUser = async (req, res) => {
         logger.info("Hashing password for user", { email });
         const hashedPassword = await hashPassword(password);
         const otp = generateOTP();
-
         const userId = await generateUniqueUserId();
         const newReferralCode = await genrateReferral(name);
+
+        let referredByUser = null;
+        if (referralBy) {
+            try {
+                referredByUser = await handleReferral(referralCode, userId);
+            } catch (error) {
+                return res.status(400).json({ status: 400, message: [error.message] });
+            }
+        }
 
         const user = new UserModel({
             userId,
@@ -51,22 +59,27 @@ const registerUser = async (req, res) => {
             gender,
             referralCode:newReferralCode,
             password: hashedPassword,
+            referrals: [],
             otp,
             otpExpire: new Date(Date.now() + 10 * 60 * 1000),
         });
 
+        if (referredByUser) {
+            user.referredBy = referredByUser;
+        }
+
         await user.save();
         logger.info("User registered successfully, OTP generated", { email, mobile, otp });
 
-        // const otpSent = await sendOTP(mobile, otp);
+        const otpSent = await sendOTP(mobile, otp);
 
-        // if (!otpSent.success) {
-        //     logger.error("OTP sending failed", { mobile, error: otpSent.message });
-        //     return res.status(500).json({
-        //         status: 500,
-        //         message: otpSent.message,
-        //     });
-        // }
+        if (!otpSent.success) {
+            logger.error("OTP sending failed", { mobile, error: otpSent.message });
+            return res.status(500).json({
+                status: 500,
+                message: otpSent.message,
+            });
+        }
 
         logger.info("OTP sent successfully", { mobile });
         return res.status(200).json({
