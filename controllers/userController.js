@@ -1,27 +1,32 @@
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcryptjs';
 import UserModel from '../models/userModel.js';
-import { hashPassword } from '../utils/passwordUtils.js';
+import { hashPassword,generateUniqueUserId,genrateReferral,handleReferral} from '../utils/passwordUtils.js';
 import { generateOTP, sendOTP } from '../utils/otpUtils.js';
+import { logger } from "../utils/logger.js";
 
 const registerUser = async (req, res) => {
     try {
-        const { name, email, mobile, state, city, gender, password } = req.body;
+        logger.info("User registration request received", { body: req.body });
+        const { name, email, mobile, state, city, gender, password ,referralBy} = req.body;
 
         const existingUser = await UserModel.findOne({ $or: [{ email }, { mobile }] });
 
         if (existingUser) {
             if (existingUser.email === email && existingUser.mobile === mobile) {
+                logger.warn("Attempt to register with existing email and mobile", { email, mobile });
                 return res.status(400).json({
                     status: 400,
                     message: ['Email and mobile are already registered. Please use a different email or mobile.'],
                 });
             } else if (existingUser.email === email) {
+                logger.warn("Attempt to register with existing email", { email });
                 return res.status(400).json({
                     status: 400,
                     message: ['Email is already registered. Please use a different email.'],
                 });
             } else if (existingUser.mobile === mobile) {
+                logger.warn("Attempt to register with existing mobile", { mobile });
                 return res.status(400).json({
                     status: 400,
                     message: ['Mobile number is already registered. Please use a different mobile number.'],
@@ -29,36 +34,60 @@ const registerUser = async (req, res) => {
             }
         }
 
+        logger.info("Hashing password for user", { email });
         const hashedPassword = await hashPassword(password);
         const otp = generateOTP();
+        const userId = await generateUniqueUserId();
+        const newReferralCode = await genrateReferral(name);
+
+        let referredByUser = null;
+        if (referralBy) {
+            try {
+                referredByUser = await handleReferral(referralCode, userId);
+            } catch (error) {
+                return res.status(400).json({ status: 400, message: [error.message] });
+            }
+        }
 
         const user = new UserModel({
+            userId,
             name,
             email,
             mobile,
             state,
             city,
             gender,
+            referralCode:newReferralCode,
             password: hashedPassword,
+            referrals: [],
             otp,
             otpExpire: new Date(Date.now() + 10 * 60 * 1000),
         });
 
+        if (referredByUser) {
+            user.referredBy = referredByUser;
+        }
+
         await user.save();
+        logger.info("User registered successfully, OTP generated", { email, mobile, otp });
 
         const otpSent = await sendOTP(mobile, otp);
 
         if (!otpSent.success) {
+            logger.error("OTP sending failed", { mobile, error: otpSent.message });
             return res.status(500).json({
                 status: 500,
                 message: otpSent.message,
             });
         }
+
+        logger.info("OTP sent successfully", { mobile });
         return res.status(200).json({
             status: 200,
             message: ['User registered successfully. OTP sent to mobile.'],
         });
     } catch (error) {
+        logger.error("Error in user registration", { error: error.message });
         return res.status(500).json({
             status: 500,
             message: [error.message],

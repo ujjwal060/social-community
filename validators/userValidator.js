@@ -51,6 +51,9 @@ const userValidationSchema = Joi.object({
     otpExpire: Joi.date().optional().allow('').messages({
         'date.base': 'OTP Expiry must be a valid date.',
     }),
+    referralBy: Joi.string().optional().allow('', null).messages({
+        'string.base': 'ReferredBy must be a string.',
+    }),
 });
 
 const loginValidationSchema = Joi.object({
