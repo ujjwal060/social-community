@@ -13,7 +13,7 @@ const loadConfig = async () => {
     ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET,
     REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET,
     AWS_REGION: process.env.AWS_REGION || 'us-east-1',
-    SECRET_NAME: process.env.SECRET_NAME,
+    SECRET_NAME: process.env.SECRET_NAME || 'social-community',
   };
 
   if (config.NODE_ENV === 'production') {
