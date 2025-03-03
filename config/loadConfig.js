@@ -17,7 +17,7 @@ const loadConfig = async () => {
   };
   console.log("config",config);
 
-  if (config.NODE_ENV === 'production') {
+  if (config.NODE_ENV !== 'development') {
     console.log("production");
     logger.info('Fetching secrets from AWS Secrets Manager...');
     const secretsManager = new AWS.SecretsManager({ region:'us-east-1'});
