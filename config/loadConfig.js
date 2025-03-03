@@ -15,12 +15,12 @@ const loadConfig = async () => {
     AWS_REGION: process.env.AWS_REGION || 'us-east-1',
     SECRET_NAME: process.env.SECRET_NAME || 'social-community',
   };
-  console.log("config",config);
 
-  if (config.NODE_ENV !== 'development') {
+  // if (config.NODE_ENV !== 'development') {
     console.log("production");
     logger.info('Fetching secrets from AWS Secrets Manager...');
     const secretsManager = new AWS.SecretsManager({ region:'us-east-1'});
+    console.log("secretsManager",secretsManager);
 
     try {
       const secretData = await secretsManager.getSecretValue({ SecretId: config.SECRET_NAME }).promise();
@@ -35,7 +35,7 @@ const loadConfig = async () => {
       logger.error(`Error fetching secrets from AWS Secrets Manager: ${error.message}`);
       process.exit(1);
     }
-  }
+  // }
 
   logger.info('Running in development mode. Using .env for configuration.');
   return config;
