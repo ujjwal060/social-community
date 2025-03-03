@@ -15,6 +15,7 @@ const loadConfig = async () => {
     AWS_REGION: process.env.AWS_REGION || 'us-east-1',
     SECRET_NAME: process.env.SECRET_NAME || 'social-community',
   };
+  console.log("config",config);
 
   if (config.NODE_ENV === 'production') {
     console.log("production");
