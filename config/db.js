@@ -3,8 +3,6 @@ import {logger} from "../utils/logger.js"
 
 const connectToDatabase = async (dbUri) => {
   try {
-    console.log("dbUri",dbUri);
-
     await mongoose.connect(dbUri);
     logger.info('Connected to MongoDB successfully')
   } catch (error) {

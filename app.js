@@ -6,17 +6,12 @@ import routes from './routes/index.js';
 
 const startServer = async () => {
     try {
-        console.log(111);
-        
         const config = await loadConfig();
-        console.log(222);
 
         await loadConfig();
         const app = express();
-        console.log(333);
 
         app.use(express.json());
-        console.log(444);
 
         await connectToDatabase(config.DB_URI);
         console.log(555);
