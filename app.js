@@ -8,6 +8,8 @@ import routes from './routes/index.js';
 const startServer = async () => {
     try {
         const config = await loadConfig();
+        console.log(111,config);
+        
         const app = express();
         
         // const corsOptions={

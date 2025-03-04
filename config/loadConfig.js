@@ -33,11 +33,8 @@ const loadConfig = async () => {
       );
 
       if (response.SecretString) {
-      console.log(111,response);
         try {
           const secrets = JSON.parse(response.SecretString);
-          console.log(222,secrets);
-          
           return {
             PORT: secrets.PORT || 3030,
             DB_URI: secrets.DB_URI,
