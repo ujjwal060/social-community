@@ -28,10 +28,10 @@ const secretsManager = new SecretsManagerClient({ region: REGION });
 const loadConfig = async () => {
   if (ENV === 'production') {
     try {
-      console.log(111);
       const response = await secretsManager.send(
         new GetSecretValueCommand({ SecretId: SECRET_NAME })
       );
+      console.log(111,response);
 
       if (response.SecretString) {
         try {
