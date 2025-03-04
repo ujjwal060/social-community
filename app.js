@@ -15,7 +15,7 @@ const startServer = async () => {
 
         await connectToDatabase(config.DB_URI);
 
-        app.use('/', getvalue);
+        app.get('/', getvalue);
         const getvalue=async(req,res)=>{
             try{
         res.send("shi h bc")
