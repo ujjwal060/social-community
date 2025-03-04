@@ -1,13 +1,13 @@
 import express from 'express';
 // import cors from 'cors';
-import {loadConfig} from './config/loadConfig.js';
+import getConfig from './config/loadConfig.js';
 import connectToDatabase from './config/db.js';
 import {logger} from "./utils/logger.js";
 import routes from './routes/index.js';
 
 const startServer = async () => {
     try {
-        const config = await loadConfig();
+        const config = await getConfig();
         console.log("config",config);
         const app = express();
         
