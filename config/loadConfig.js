@@ -28,7 +28,7 @@ async function getConfig() {
     APPLE_CALLBACK_URL: process.env.APPLE_CALLBACK_URL,
   };
 
-  if (NODE_ENV === "production") {
+  if (ENV === "production") {
     try {
       console.log("Fetching secrets from AWS...");
 
