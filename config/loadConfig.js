@@ -28,8 +28,17 @@ async function getSecrets() {
 const loadConfig = async () => {
   if (ENV === 'production') {
     try {
+      const REGION = process.env.AWS_REGION || "us-east-1";
+      const SECRET_NAME = process.env.SECRET_NAME || "social-com";
+
+      const secretsManager = new SecretsManagerClient({ region: REGION });
+      const response = await secretsManager.send(
+        new GetSecretValueCommand({ SecretId: SECRET_NAME })
+      );
+      
+      const secrets= JSON.parse(response.SecretString);
       logger.info('Fetching secrets from AWS Secrets Manager...');
-      const secrets = await getSecrets();
+      // const secrets = await getSecrets();
       logger.info('Secrets successfully loaded from AWS.');
       return {
         NODE_ENV: secrets.NODE_ENV,
