@@ -13,7 +13,7 @@ const startServer = async () => {
 
         app.use(express.json());
 
-        await connectToDatabase(config.DB_URI);
+        // await connectToDatabase(config.DB_URI);
 
         const getvalue = async (req, res) => {
             try {
