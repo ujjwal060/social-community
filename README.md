@@ -18,6 +18,6 @@ C:\aayan website\social-community\
 ├── package.json
 └── README.md
 
-C:\Users\ABC\Downloads\loki-windows-amd64.exe .\loki-windows-amd64.exe --config.file="C:\aayan website\social-community\loki-config.yaml" // for loki
+.\loki-windows-amd64.exe --config.file="C:\aayan website\social-community\loki-config.yaml" // for loki
 
 PS C:\Users\ABC\Downloads\grafana-enterprise-11.5.2.windows-amd64\grafana-v11.5.2\bin> .\grafana-server.exe // for grafana
