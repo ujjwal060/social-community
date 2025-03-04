@@ -1,5 +1,5 @@
 import express from 'express';
-import cors from 'cors';
+// import cors from 'cors';
 import loadConfig from './config/loadConfig.js';
 import connectToDatabase from './config/db.js';
 import {logger} from "./utils/logger.js";
@@ -12,12 +12,12 @@ const startServer = async () => {
         await loadConfig();
         const app = express();
         
-        const corsOptions={
-            // origin: ['*'],
-            origin:'*'
-        }
+        // const corsOptions={
+        //     // origin: ['*'],
+        //     origin:'*'
+        // }
 
-        app.use(cors(corsOptions));
+        // app.use(cors(corsOptions));
         app.use(express.json());
 
         await connectToDatabase(config.DB_URI);
