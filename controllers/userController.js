@@ -458,6 +458,17 @@ const verifyRefralcode=async(req,res)=>{
     }
 }
 
+const apitest=async(req,res)=>{
+    try{
+        res.json({
+            msg:"mc bsdk chal bhi le",
+            status:200
+        })
+    }catch(error){
+        console.log(error);
+    }
+}
+
 export {
     registerUser,
     verifyOtp,
@@ -468,4 +479,5 @@ export {
     logOut,
     changePassword,
     verifyRefralcode,
+    apitest
 };
