@@ -53,8 +53,9 @@ const loadConfig = async () => {
     logger.info('Fetching secrets from AWS Secrets Manager...');
     try {
       const secrets = await getSecrets();
+
       logger.info('Secrets successfully loaded from AWS.');
-      return { ...config, ...secrets };
+      return { ...secrets };
     } catch (error) {
       logger.error(`Error fetching secrets from AWS Secrets Manager: ${error.message}`);
       process.exit(1);
