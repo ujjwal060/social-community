@@ -29,11 +29,9 @@ const loadConfig = async () => {
   if (ENV === 'production') {
     try {
       console.log(111);
-      const command = new GetSecretValueCommand({
-        SecretId: "social-com",
-      });
-
-      const response = await secretsManager.send(command);
+      const response = await secretsManager.send(
+        new GetSecretValueCommand({ SecretId: SECRET_NAME })
+      );
 
       if (response.SecretString) {
         try {
