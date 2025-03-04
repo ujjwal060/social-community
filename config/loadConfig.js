@@ -21,7 +21,6 @@ const loadConfig = async () => {
     const secretsManager = new AWS.SecretsManager({ region:config.AWS_REGION});
     try {
       const secretData = await secretsManager.getSecretValue({ SecretId: config.SECRET_NAME }).promise();
-
       if (secretData.SecretString) {
         const secrets = JSON.parse(secretData.SecretString);
 
