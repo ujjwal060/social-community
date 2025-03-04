@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-import AWS from 'aws-sdk';
+import { SecretsManagerClient, GetSecretValueCommand } from "@aws-sdk/client-secrets-manager";
 import {logger} from "../utils/logger.js"
 
 
@@ -18,16 +18,22 @@ const loadConfig = async () => {
 
   if (config.NODE_ENV === 'production') {
     logger.info('Fetching secrets from AWS Secrets Manager...');
-    const secretsManager = new AWS.SecretsManager({ region:config.AWS_REGION});
+    const secretsManager = new SecretsManagerClient({ region: "us-east-1" });
     try {
-      const secretData = await secretsManager.getSecretValue({ SecretId:'social-com' }).promise();
-      if (secretData.SecretString) {
-        const secrets = JSON.parse(secretData.SecretString);
-
+      const secretData = new GetSecretValueCommand({
+        SecretId: "social-com",
+      });
+      const response = await secretsManager.send(secretData);
+      console.log(111,response);
+      if (response.SecretString) {
+        const secrets = JSON.parse(response.SecretString);
+      console.log(222,secrets);
         logger.info('Secrets successfully loaded from AWS.');
         return { ...config, ...secrets };
       }
     } catch (error) {
+      console.log(error);
+      
       logger.error(`Error fetching secrets from AWS Secrets Manager: ${error.message}`);
       process.exit(1);
     }
