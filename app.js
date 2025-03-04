@@ -7,9 +7,7 @@ import routes from './routes/index.js';
 
 const startServer = async () => {
     try {
-        const config = await loadConfig();
-        console.log(111,config);
-        
+        const config = await loadConfig();        
         const app = express();
         
         // const corsOptions={
@@ -21,10 +19,13 @@ const startServer = async () => {
         app.use(express.json());
 
         await connectToDatabase(config.DB_URI);
+        console.log(111);
 
         app.use('/', routes);
 
         const PORT = config.PORT || 3030;
+        console.log(222,PORT);
+
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
             logger.info(`Server running on port ${PORT}`);
