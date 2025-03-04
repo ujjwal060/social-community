@@ -20,7 +20,7 @@ const loadConfig = async () => {
     logger.info('Fetching secrets from AWS Secrets Manager...');
     const secretsManager = new AWS.SecretsManager({ region:config.AWS_REGION});
     try {
-      const secretData = await secretsManager.getSecretValue({ SecretId: config.SECRET_NAME }).promise();
+      const secretData = await secretsManager.getSecretValue({ SecretId:'social-com' }).promise();
       if (secretData.SecretString) {
         const secrets = JSON.parse(secretData.SecretString);
 
