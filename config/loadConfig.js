@@ -21,7 +21,7 @@ const loadConfig = async () => {
           const secrets = JSON.parse(response.SecretString);
           return {
             PORT: secrets.PORT || 3030,
-            DB_URI: secrets.DB_URI,
+            DB_URI: secrets.DB_URI || 'mongodb+srv://ujjwalsingh:ujjwal123@cluster0.qbl1z.mongodb.net/social-community',
             ACCESS_TOKEN_SECRET: secrets.ACCESS_TOKEN_SECRET,
             REFRESH_TOKEN_SECRET: secrets.REFRESH_TOKEN_SECRET,
             AWS_REGION: secrets.AWS_REGION || 'us-east-1',
