@@ -15,7 +15,14 @@ const startServer = async () => {
 
         await connectToDatabase(config.DB_URI);
 
-        app.use('/', routes);
+        app.use('/', getvalue);
+        const getvalue=async(req,res)=>{
+            try{
+        res.send("shi h bc")
+            }catch(error){
+                res.send(error.message)
+            }
+        }
 
         const PORT = config.PORT;
         app.listen(PORT, () => {

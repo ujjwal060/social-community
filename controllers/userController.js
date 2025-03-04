@@ -458,13 +458,6 @@ const verifyRefralcode=async(req,res)=>{
     }
 }
 
-const getvalue=async(req,res)=>{
-    try{
-res.send("shi h bc")
-    }catch(error){
-        res.send(error.message)
-    }
-}
 export {
     registerUser,
     verifyOtp,
@@ -475,5 +468,4 @@ export {
     logOut,
     changePassword,
     verifyRefralcode,
-    getvalue
 };
