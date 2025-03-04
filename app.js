@@ -1,7 +1,7 @@
 import express from 'express';
 import loadConfig from './config/loadConfig.js';
 import connectToDatabase from './config/db.js';
-import { logger } from "./utils/logger.js";
+import {logger} from "./utils/logger.js";
 import routes from './routes/index.js';
 
 const startServer = async () => {
@@ -13,18 +13,9 @@ const startServer = async () => {
 
         app.use(express.json());
 
-        // await connectToDatabase(config.DB_URI);
+        await connectToDatabase(config.DB_URI);
 
-        const getvalue = async (req, res) => {
-            try {
-                res.send("shi h bc")
-            } catch (error) {
-                res.send(error.message)
-            }
-        }
-
-        app.get('/', getvalue);
-
+        app.use('/', routes);
 
         const PORT = config.PORT;
         app.listen(PORT, () => {
