@@ -1,16 +1,14 @@
 import express from 'express';
 // import cors from 'cors';
-import {getSecrets,getSpecificSecret} from './config/loadConfig.js';
+import {loadConfig} from './config/loadConfig.js';
 import connectToDatabase from './config/db.js';
 import {logger} from "./utils/logger.js";
 import routes from './routes/index.js';
 
 const startServer = async () => {
     try {
-        const config = await getSecrets();
+        const config = await loadConfig();
         console.log("config",config);
-
-        // await loadConfig();
         const app = express();
         
         // const corsOptions={
@@ -26,8 +24,6 @@ const startServer = async () => {
         app.use('/', routes);
 
         const PORT = config.PORT || 3030;
-console.log(PORT);
-
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
             logger.info(`Server running on port ${PORT}`);
