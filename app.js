@@ -19,12 +19,15 @@ const startServer = async () => {
 
         // app.use(cors(corsOptions));
         app.use(express.json());
+console.log(config.DB_URI);
 
         await connectToDatabase(config.DB_URI);
 
         app.use('/', routes);
 
-        const PORT = config.PORT;
+        const PORT = config.PORT || 3030;
+console.log(PORT);
+
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
             logger.info(`Server running on port ${PORT}`);
