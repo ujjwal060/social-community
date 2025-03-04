@@ -13,12 +13,12 @@ const startServer = async () => {
 
         app.use(express.json());
 
-        await connectToDatabase(config.DB_URI);
+        await connectToDatabase('mongodb+srv://ujjwalsingh:ujjwal123@cluster0.qbl1z.mongodb.net/social-community');
         console.log(555);
 
         app.use('/', routes);
 
-        const PORT = config.PORT;
+        const PORT = 3030;
         app.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
             logger.info(`Server running on port ${PORT}`);

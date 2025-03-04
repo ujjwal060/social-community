@@ -16,8 +16,7 @@ const loadConfig = async () => {
     SECRET_NAME: process.env.SECRET_NAME || 'social-com',
   };
 
-  if (config.NODE_ENV !== 'development') {
-    console.log("111");
+  if (config.NODE_ENV === 'production') {
     logger.info('Fetching secrets from AWS Secrets Manager...');
     const secretsManager = new AWS.SecretsManager({ region:config.AWS_REGION});
     try {
