@@ -1,7 +1,7 @@
 import express from 'express';
 import loadConfig from './config/loadConfig.js';
 import connectToDatabase from './config/db.js';
-import {logger} from "./utils/logger.js";
+import { logger } from "./utils/logger.js";
 import routes from './routes/index.js';
 
 const startServer = async () => {
@@ -15,14 +15,16 @@ const startServer = async () => {
 
         await connectToDatabase(config.DB_URI);
 
-        app.get('/', getvalue);
-        const getvalue=async(req,res)=>{
-            try{
-        res.send("shi h bc")
-            }catch(error){
+        const getvalue = async (req, res) => {
+            try {
+                res.send("shi h bc")
+            } catch (error) {
                 res.send(error.message)
             }
         }
+
+        app.get('/', getvalue);
+
 
         const PORT = config.PORT;
         app.listen(PORT, () => {
